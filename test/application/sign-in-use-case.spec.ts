@@ -5,7 +5,7 @@ import { HashComparerError } from '#src/application/erros/hash-comparer-error'
 import { TokenGenerationError } from '#src/application/erros/token-generator-error'
 import type { HashComparer } from '#src/application/interfaces/hash-comparer'
 import type { UserRepository } from '#src/application/interfaces/repositories/user-repository'
-import type { TokenGenerator } from '#src/application/interfaces/token-manipulate'
+import type { AccessTokenGenerator } from '#src/application/interfaces/token-manipulate'
 import { InvalidCredentialsError } from '#src/application/use-cases/sign-in/errors/invalid-credentials-error'
 import { SignInUseCase, type SignInInput } from '#src/application/use-cases/sign-in/sign-in-use-case'
 import { userRole, type User } from '#src/domain/entity/user'
@@ -19,7 +19,7 @@ describe('SignIn UseCase', () => {
   let mockUserId: UniqueEntityId
   let userRepository: MockProxy<UserRepository>
   let hashComparer: MockProxy<HashComparer>
-  let tokenGenerator: MockProxy<TokenGenerator>
+  let tokenGenerator: MockProxy<AccessTokenGenerator>
   let accessToken: string
 
   let sut: SignInUseCase
@@ -43,8 +43,8 @@ describe('SignIn UseCase', () => {
     hashComparer.compare.mockResolvedValue(true)
 
     accessToken = 'any_access_token'
-    tokenGenerator = mock<TokenGenerator>()
-    tokenGenerator.generate.mockResolvedValue(accessToken)
+    tokenGenerator = mock<AccessTokenGenerator>()
+    tokenGenerator.generateToken.mockResolvedValue(accessToken)
 
     input = {
       email: 'any@email.com',
@@ -73,7 +73,7 @@ describe('SignIn UseCase', () => {
       await sut.execute(input)
 
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(tokenGenerator.generate).toHaveBeenLastCalledWith({ sub: mockUserId, role: userRole.EDITOR })
+      expect(tokenGenerator.generateToken).toHaveBeenLastCalledWith({ sub: mockUserId, role: userRole.EDITOR })
     })
 
     it('Should return accessToken when valid credentials', async () => {
@@ -113,7 +113,7 @@ describe('SignIn UseCase', () => {
     })
 
     it('Should throw TokenGenerationError if token generator failure', async () => {
-      tokenGenerator.generate.mockImplementation(() => {
+      tokenGenerator.generateToken.mockImplementation(() => {
         throw new TokenGenerationError()
       })
 

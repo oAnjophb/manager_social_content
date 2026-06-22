@@ -6,6 +6,6 @@
     "tsBuildInfoFile": "./.cache/tsconfig.app.tsbuildinfo",
     "types": ["node", "vitest/globals"]
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/infra/adapters/postgre-adapter.ts"],
   "exclude": ["build", "coverage", "doc", "node_modules"]
 }

@@ -3,10 +3,8 @@ import { mock, type MockProxy } from 'vitest-mock-extended'
 
 import type { PasswordHasher } from '#src/application/interfaces/password-hasher'
 import type { UserRepository } from '#src/application/interfaces/repositories/user-repository'
-import { InvalidRoleError } from '#src/application/use-cases/sign-up/errors/invalid-role-error'
 import { SignUpUseCase, type SignUpInput } from '#src/application/use-cases/sign-up/sign-up-use-case'
 import { Email } from '#src/domain/value-objects/email'
-import { Password } from '#src/domain/value-objects/password'
 
 describe('Sign Up UseCase', () => {
   let input: SignUpInput
@@ -41,7 +39,7 @@ describe('Sign Up UseCase', () => {
   it('Should garanted passwordHasher is called with plain text informed', async () => {
     await sut.execute(input)
 
-    expect(passwordHasher.hash).toHaveBeenCalledWith(new Password(input.password))
+    expect(passwordHasher.hash).toHaveBeenCalledWith(input.password)
   })
 
   it('Should garanted IdGenerator is called for generate new ID for user', async () => {
@@ -76,9 +74,11 @@ describe('Sign Up UseCase', () => {
     expect(output.createdAt).toBeInstanceOf(Date)
   })
 
-  it('Should throw InvalidRoleError when role is invalid', async () => {
+  it('Should return errorMessage when role is invalid', async () => {
     input.role = 'INVALID_ROLE'
 
-    await expect(sut.execute(input)).rejects.toThrow(InvalidRoleError)
+    const output = await sut.execute(input)
+
+    expect(output.errorMessage).toBe('Invalid role provided')
   })
 })
