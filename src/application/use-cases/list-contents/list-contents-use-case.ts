@@ -16,7 +16,7 @@ export type ListContentsOutput = {
   limit: number
 }
 
-const MAX_LIMIT = 100
+const MAX_LIMIT = 10
 
 export class ListContentsUseCase implements UseCase<ListContentsInput, ListContentsOutput> {
   constructor(private readonly contentRepository: ContentRepository) {}
@@ -26,7 +26,7 @@ export class ListContentsUseCase implements UseCase<ListContentsInput, ListConte
       throw new InvalidPaginationError('page must be an integer >= 1')
     }
     if (!Number.isInteger(input.limit) || input.limit < 1 || input.limit > MAX_LIMIT) {
-      throw new InvalidPaginationError(`limit must be an integer between 1 and $100`)
+      throw new InvalidPaginationError(`limit must be an integer between 1 and $10`)
     }
 
     const { items, total } = await this.contentRepository.findAll(input.page, input.limit)
