@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/unbound-method */
 import { mock, type MockProxy } from 'vitest-mock-extended'
 
 import { DataBaseConnectionError } from '#src/application/erros/database-connection-error'
@@ -7,6 +6,7 @@ import type { ContentRepository } from '#src/application/interfaces/repositories
 import type { UserRepository } from '#src/application/interfaces/repositories/user-repository'
 import { InvalidContentError } from '#src/application/use-cases/register-content/errors/invalid-content-error'
 import { RegisterContentUseCase } from '#src/application/use-cases/register-content/register-content-use-case'
+import { status } from '#src/domain/entity/content'
 import { userRole, type User } from '#src/domain/entity/user'
 import { UniqueEntityId } from '#src/domain/value-objects/uniqueId'
 
@@ -92,6 +92,12 @@ describe('RegisterContent UseCase', () => {
       expect(output.content.description).toBe(input.description)
       expect(output.content.imagesUrl).toStrictEqual(input.imagesURL)
       expect(output.content.Actiondate).toBeInstanceOf(Date)
+    })
+
+    it("Should return the registered content with status 'Published'", async () => {
+      const output = await sut.execute(input)
+
+      expect(output.content.Status).toBe(status.PUBLISHED)
     })
 
     it('Should throw EditorNotExistsError when author is not found', async () => {
