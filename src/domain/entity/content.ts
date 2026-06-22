@@ -2,7 +2,7 @@ import { Entity } from './entity.js'
 
 export enum status {
   PUBLISHED = 'Published',
-  REMOVED = 'RemcreatedAtoved',
+  REMOVED = 'Removed',
 }
 
 type ContentProps = {
