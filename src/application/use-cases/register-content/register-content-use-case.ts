@@ -1,4 +1,4 @@
-import { Content } from '#src/domain/entity/content'
+import { Content, status } from '#src/domain/entity/content'
 import { ActionDate } from '#src/domain/value-objects/actionDate'
 import { Description } from '#src/domain/value-objects/description'
 import { ImagesURL } from '#src/domain/value-objects/imagesUrl'
@@ -17,6 +17,7 @@ type RegisterContentInput = {
   description: string
   actionDate: string
   imagesURL: string[]
+  status: string
 }
 
 type RegisterContentOutput = {
@@ -51,6 +52,8 @@ export class RegisterContentUseCase implements UseCase<RegisterContentInput, Reg
       description: normalizedDescription.getValue(),
       Actiondate: normalizedActionDate.getValue(),
       imagesUrl: normalizedImagesURL.getValue(),
+      status: status.PUBLISHED,
+      createdAt: new Date(),
     })
 
     await this.contentRepository.save(content)
