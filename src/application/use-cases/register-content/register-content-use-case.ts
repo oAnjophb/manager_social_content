@@ -17,7 +17,6 @@ type RegisterContentInput = {
   description: string
   actionDate: string
   imagesURL: string[]
-  status: string
 }
 
 type RegisterContentOutput = {
