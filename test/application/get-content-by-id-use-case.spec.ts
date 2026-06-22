@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/unbound-method */
 import { mock, type MockProxy } from 'vitest-mock-extended'
 
 import { ContentNotFoundError } from '#src/application/erros/content-not-found-error'
