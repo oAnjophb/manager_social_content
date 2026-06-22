@@ -152,8 +152,12 @@ export default defineConfig([
   },
 
   {
-    files: ['test/**/*.ts'],
+    files: ['test/**/.spec.ts'],
     extends: [...tseslint.configs.strictTypeChecked],
+    rules: {
+      '@typescript-eslint/unbound-method': 'off',
+      'vitest/unbound-method': 'error',
+    },
     languageOptions: {
       ecmaVersion: 2024,
       sourceType: 'module',
