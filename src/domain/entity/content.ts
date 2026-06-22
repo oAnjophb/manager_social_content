@@ -1,8 +1,8 @@
 import { Entity } from './entity.js'
 
 export enum status {
-  DRAFT = 'Draft',
   PUBLISHED = 'Published',
+  REMOVED = 'RemcreatedAtoved',
 }
 
 type ContentProps = {
@@ -33,7 +33,7 @@ export class Content extends Entity<ContentProps> {
   get authorId() {
     return this.props.authorId
   }
-  getStatus() {
+  get Status() {
     return this.props.status
   }
   get createdAt() {
