@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/unbound-method */
 import { mock, type MockProxy } from 'vitest-mock-extended'
 
 import { DataBaseConnectionError } from '#src/application/erros/database-connection-error'
